@@ -107,7 +107,7 @@ Implemente o card de Pull Request da lista "Sprint 1 - Frontend".
 @tech-troubleshooter A página [nome] não está responsiva no mobile.
 ```
 
-## Prompts para criação dos steerings e agents
+## Prompts apresentação 11/08
 
 
 ### Criação dos steering de tech e estrutura
