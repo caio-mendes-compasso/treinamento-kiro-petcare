@@ -106,3 +106,73 @@ Implemente o card de Pull Request da lista "Sprint 1 - Frontend".
 ```
 @tech-troubleshooter A página [nome] não está responsiva no mobile.
 ```
+
+## Prompts para criação dos steerings e agents
+
+
+### Criação dos steering de tech e estrutura
+```
+Crie um steering file para definir a stack e estrutura do projeto:
+
+Stack do projeto:
+Next.js 14+ com App Router e TypeScript
+Estrutura: /app, /components, /contexts, /types, /mocks
+Tailwind
+Fonte Inter
+ESLint
+Responsivo (mobile-first)
+Validação de formulários com Zod
+```
+
+### Criação dos steering de entidade visual
+```
+Crie um steering file para entidade visual do meu projeto:
+
+Tailwind CSS
+Tema: azul petróleo (#0D7377) como primário, branco como fundo
+```
+
+```
+Crie a estrutura inicial do projeto
+```
+
+### Criação do agent de refinamento
+```
+Tenho o prompt abaixo para a criação de um custom-agent para refinamento de historias.
+Melhore esse prompt.
+
+Prompt:
+Agente especializado em refinamento técnico e quebra de histórias escrita pelo time de produtos.
+
+Esse agent deve ter a capacidade de acessar um board do trello, analisar um card e fazer o refinamento tecnico da historia que consta na coluna de Refinamento. O input para o agent pode ser o ID do card, titulo ou descrição.
+O agent deve ter a capacidade também de navegar no diretorio do projeto, analisar os arquivos já existentes.
+Mas não deve em hipotese nenhuma criar, alterar ou remover arquivos, apenas leitura.
+Deve ter acesso a MCPs.
+
+Passos:
+
+1. Entender a demanda de produto, incrementar informações faltantes e respeitar os critérios de aceites definidos na historia.
+2. Entender se é possível fazer a quebra dessa historias em várias historias menores para cada funcionalidade.
+3. Para cada funcionalidade da historia, criar um card com o refinamento tecnico referente a essa funcionalidade. 
+O refinamento deve conter:
+	a. O problema de negócio que a história propõe a resolver
+	b. Componentes dos sistemas que serão criados ou modificados.
+	c. Cenários de testes
+	d. Demais informações relevanetes para que qualquer desenvolvedor sem contexto consiga executar o desenvolvimento da tarefa. 
+5. Antes de criar o card, peça a validação do usuario para ver se o refinamento está de acordo com o esperado.
+6. Os cards devem ser criados na coluna A Fazer do board do trello. Seu titulo deve conter a numeração da ordem que as historias devem ser executadas.
+7. O agente deve extrair uma lista explícita de TODOS os requisitos, funcionalidades, rotas, itens de menu e comportamentos descritos no card original** — usar essa lista como checklist de referência obrigatória
+8. Todos os criterios de aceite devem estar cobertos no card refinado! Isso é uma premissa e é obrigatório!
+```
+
+### Criação do agent de refinamento de git flow
+```
+Crie um custom-agent responsavel por seguir o gitflow do meu projeto:
+1. Nunca commit na main, develop ou master
+2. Crie sempre uma feature branch a partir da develop usando boas praticas de nomenclatura
+3. Analise o que foi criado/alterado e faça o commit utilizando boas praticas de mensagem de commit
+4. Faça o push da nova branch para o remote
+5. Abra uma PR apontando para a develop, na PR descreva um resumo do que foi modificado, adicione os arquivos que foram alterados e mais o que achar pertinente
+6. Pode ser usado o MCP do github quando necessario.
+7. Nunca alterar nenhum codigo do projeto, deletar repositorios, deletar pullrequests.
+```
