@@ -1,14 +1,17 @@
+import HeroBanner from "@/components/home/HeroBanner";
+import BenefitsSection from "@/components/home/BenefitsSection";
+import PlansComparison from "@/components/home/PlansComparison";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
+import CTASection from "@/components/home/CTASection";
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center px-4">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-semibold text-gray-900">
-          🐾 Pet Care
-        </h1>
-        <p className="text-lg text-gray-500">
-          Cuidando do seu pet com carinho
-        </p>
-      </div>
+    <main className="break-words">
+      <HeroBanner />
+      <BenefitsSection />
+      <PlansComparison />
+      <TestimonialsSection />
+      <CTASection />
     </main>
   );
 }

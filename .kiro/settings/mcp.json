@@ -11,7 +11,8 @@
       },
       "disabled": false,
       "autoApprove": [
-        "search_repositories"
+        "search_repositories",
+        "create_pull_request"
       ]
     }
   }

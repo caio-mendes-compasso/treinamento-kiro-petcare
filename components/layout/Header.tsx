@@ -9,7 +9,7 @@ import { navigationItems } from "@/mocks/navigation";
 import Sidebar from "./Sidebar";
 
 export default function Header() {
-  const { isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
@@ -54,6 +54,11 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav aria-label="Navegação principal" className="hidden md:flex items-center space-x-6">
+          {isAuthenticated && user && (
+            <span className="text-sm text-gray-500">
+              Olá, {user.nome}
+            </span>
+          )}
           {filteredItems.map((item) => {
             const isActive = item.href === pathname;
 
