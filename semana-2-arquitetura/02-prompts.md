@@ -67,7 +67,8 @@ Gere um diagrama de arquitetura AWS em draw.io para o Portal Pet Care com os seg
 - CDN: CloudFront
 
 Mostre o fluxo do browser até o banco de dados. Inclua VPC com subnets públicas e privadas.
-Salve o diagrama em /docs/architecture/diagrama-arquitetura.drawio.
+Use ícones AWS oficiais do draw.io (shapes aws4).
+Salve o arquivo como /docs/architecture/petcare-architecture.drawio no projeto.
 ```
 
 ### 2.2 Precificação AWS

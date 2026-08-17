@@ -80,6 +80,24 @@ terraform apply tfplan
 
 > Mostrar os outputs (RDS endpoint, S3 bucket, Cognito pool ID, etc.)
 
+### 1.5.3 Mostrar no Console AWS (2 min)
+
+> Abrir o console AWS no browser e mostrar os recursos criados:
+> - **VPC** → mostrar subnets, security groups
+> - **RDS** → mostrar instância PostgreSQL criada
+> - **ECS** → mostrar cluster (vazio por enquanto, task será deployada depois)
+> - **S3** → mostrar buckets criados (fotos + frontend)
+> - **Cognito** → mostrar User Pool criado
+>
+> Prompt:
+```
+Liste os recursos criados pelo Terraform na conta AWS. Use AWS CLI para confirmar:
+- aws ec2 describe-vpcs --profile petcare --query "Vpcs[?Tags[?Key=='Project' && Value=='petcare']].[VpcId,CidrBlock]" --output table
+- aws rds describe-db-instances --profile petcare --query "DBInstances[*].[DBInstanceIdentifier,Endpoint.Address,DBInstanceStatus]" --output table
+- aws s3 ls --profile petcare | grep petcare
+- aws cognito-idp list-user-pools --profile petcare --max-results 10 --query "UserPools[*].[Name,Id]" --output table
+```
+
 **⚠️ Importante:** Lembrar de destruir no final do treinamento:
 ```bash
 terraform destroy -auto-approve
@@ -196,6 +214,28 @@ curl -H "Authorization: Bearer test-token" http://localhost:8080/api/pets
 ---
 
 ## Etapa 5: Testes (5 min)
+
+### 5.0 Mostrar o backend rodando (2 min)
+
+> Antes dos testes unitários, mostrar o backend funcionando ao vivo:
+
+```bash
+# Subir dependências
+docker-compose up -d
+
+# Rodar o backend
+mvn spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+> Abrir no browser: http://localhost:8080/swagger-ui/index.html
+> Mostrar:
+> - Lista de endpoints no Swagger
+> - GET /api/plans → retorna os 3 planos
+> - POST /api/auth/login → gera token
+> - GET /api/pets com token → retorna pets do user de teste
+> - POST /api/pets sem token → 401
+>
+> **Momento impactante:** "Tudo isso foi gerado pela IA em minutos. Cada endpoint funcional, com validação, segurança e documentação."
 
 ### 5.1 Gerar testes
 
