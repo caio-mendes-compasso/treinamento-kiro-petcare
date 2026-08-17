@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Desenhar a arquitetura cloud do Portal Pet Care, estimar custos na AWS e criar o backend completo com Spring Boot 3.5 — tudo guiado pelo Kiro em 1 hora.
+Desenhar a arquitetura cloud do Portal Pet Care, estimar custos, provisionar a infra na AWS com Terraform e criar o backend completo com Spring Boot 3.5 — tudo guiado pelo Kiro em ~1h15.
 
 ---
 
@@ -10,10 +10,13 @@ Desenhar a arquitetura cloud do Portal Pet Care, estimar custos na AWS e criar o
 
 | Etapa | Entrega | Tempo |
 |---|---|---|
-| Diagrama de Arquitetura | Desenho completo da infra AWS | 10 min |
+| Diagrama de Arquitetura | Desenho completo da infra AWS | 5 min |
 | Precificação | Estimativa mensal de custos | 5 min |
-| Backend Spring Boot 3.5 | API REST completa | 35 min |
-| Testes + PR | Testes, commit e PR | 10 min |
+| Terraform | Infra provisionada na AWS (IaC) | 10 min |
+| Quebrar Épico em Histórias | Cards no Trello gerados pela IA | 5 min |
+| Backend Spring Boot 3.5 | API REST completa (via @sprint-executor) | 40 min |
+| Testes + PR | Testes, commit e PRs por card | 10 min |
+| Encerramento | terraform destroy + recap | 5 min |
 
 ---
 
@@ -78,17 +81,33 @@ Desenhar a arquitetura cloud do Portal Pet Care, estimar custos na AWS e criar o
 
 ---
 
-## Divisão do Tempo (1h)
+## Divisão do Tempo (~1h15)
 
 | Tempo | Atividade |
 |---|---|
 | 0-5min | Recap semana 1 + contexto |
-| 5-15min | Diagrama de arquitetura + precificação |
-| 15-20min | Setup projeto Spring Boot 3.5 + Docker |
-| 20-35min | Entidades, services, controllers |
-| 35-45min | Security (Cognito) + S3 upload |
-| 45-55min | Testes |
-| 55-60min | Commit + PR |
+| 5-10min | Diagrama de arquitetura (draw.io) |
+| 10-15min | Precificação AWS (MCP pricing) |
+| 15-25min | Terraform: gerar código + apply na AWS |
+| 25-30min | Quebrar épico em histórias (IA + Trello) |
+| 30-65min | @sprint-executor implementa card por card (spec → código → testes → PR) |
+| 65-70min | Validação final (Swagger, curl, testes) |
+| 70-75min | terraform destroy + recap + gancho semana 3 |
+
+---
+
+## Ferramentas Kiro utilizadas
+
+| Tipo | Nome | Uso |
+|------|------|-----|
+| Power | `aws-cost-optimization` | Precificação real dos serviços AWS |
+| Power | `trello-to-pr` | Gestão de cards e PRs |
+| Skill | `java-spring-boot` | Padrões Spring Boot |
+| Skill | `terraform-skill` | Boas práticas Terraform |
+| Agent | `@sprint-executor` | Implementação automática card por card |
+| Agent | `@card-refiner` | Refinamento de histórias |
+| MCP | draw.io | Diagramas de arquitetura |
+| MCP | GitHub | Commits e PRs |
 
 ---
 
@@ -96,8 +115,9 @@ Desenhar a arquitetura cloud do Portal Pet Care, estimar custos na AWS e criar o
 
 - Java 17+ instalado
 - Maven instalado
+- Terraform instalado
 - Docker + docker-compose
-- Conta AWS com acesso ao console
+- Conta AWS com acesso (SSO configurado, profile "petcare")
 - AWS CLI configurada
-- Kiro IDE/CLI pronto
+- Kiro IDE pronto com powers e skills instalados
 - Repo com frontend da Semana 1

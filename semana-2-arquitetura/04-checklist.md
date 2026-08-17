@@ -12,6 +12,16 @@
 - [ ] Estimativa de custo mensal documentada
 - [ ] Decisões arquiteturais registradas
 
+## Infraestrutura (Terraform)
+
+- [ ] Código Terraform em `/infra/terraform/` com módulos
+- [ ] `terraform init` executa sem erros
+- [ ] `terraform plan` mostra recursos esperados
+- [ ] `terraform apply` provisiona com sucesso
+- [ ] Outputs documentados (RDS endpoint, S3 bucket, Cognito Pool ID)
+- [ ] `terraform destroy` limpa tudo no final
+- [ ] Tags padrão em todos os recursos (Project, Environment, ManagedBy)
+
 ## Setup Backend
 
 - [ ] Projeto Spring Boot 3.5 criado com Maven

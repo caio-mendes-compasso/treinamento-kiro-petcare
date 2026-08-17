@@ -42,7 +42,7 @@ Perguntar:
 
 ### 1.4 Precificação rápida (5 min)
 
-> Usar prompt **"Estimativa geral"** do arquivo `02-prompts.md`
+> Usar prompt **2.2 "Precificação AWS"** do arquivo `02-prompts.md`
 
 **Discussão:**
 - "Custo aceitável?"
@@ -50,6 +50,40 @@ Perguntar:
 - "NAT Gateway ($32/mês) vale a pena?"
 
 > Salvar diagrama e custos: serão incluídos na PR.
+
+---
+
+## Etapa 1.5: Infraestrutura como Código — Terraform (10 min)
+
+### 1.5.1 Gerar código Terraform (5 min)
+
+> Usar prompt **2.3 "Infraestrutura como Código"** do arquivo `02-prompts.md`
+
+**Pontos a validar:**
+- Módulos cobrem todos os serviços do diagrama?
+- Variáveis permitem mudar entre dev/prod?
+- Security Groups restritivos?
+
+### 1.5.2 Aplicar na AWS (5 min)
+
+```bash
+cd infra/terraform
+terraform init
+terraform plan -out=tfplan
+```
+
+> Mostrar o plan pro time. Discutir: "Quantos recursos? Tudo correto?"
+
+```bash
+terraform apply tfplan
+```
+
+> Mostrar os outputs (RDS endpoint, S3 bucket, Cognito pool ID, etc.)
+
+**⚠️ Importante:** Lembrar de destruir no final do treinamento:
+```bash
+terraform destroy -auto-approve
+```
 
 ---
 
@@ -205,16 +239,27 @@ git push -u origin feat/backend-spring35
 
 ## Encerramento
 
+### Destruir infraestrutura AWS (evitar custos):
+
+```bash
+cd infra/terraform
+terraform destroy -auto-approve
+```
+
+> Confirmar que todos os recursos foram removidos.
+
 ### Recapitular:
 
 1. ✅ Arquitetura AWS definida (diagrama + custos)
-2. ✅ Backend Spring Boot 3.5 completo
-3. ✅ Endpoints REST funcionais
-4. ✅ Security com Cognito JWT
-5. ✅ Upload S3
-6. ✅ Docker para dev local
-7. ✅ Testes unitários
-8. ✅ PR aberto
+2. ✅ Infraestrutura provisionada via Terraform
+3. ✅ Backend Spring Boot 3.5 completo
+4. ✅ Endpoints REST funcionais
+5. ✅ Security com Cognito JWT
+6. ✅ Upload S3
+7. ✅ Docker para dev local
+8. ✅ Testes unitários
+9. ✅ PRs abertas (uma por card)
+10. ✅ Infra destruída (sem custos residuais)
 
 ### Gancho para Semana 3:
 

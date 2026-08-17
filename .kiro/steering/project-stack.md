@@ -2,24 +2,25 @@
 
 ## Stack Principal
 
-- **Framework**: Next.js 14.2 com App Router
-- **Linguagem**: TypeScript (strict mode)
+- **Framework**: Next.js 14.2.21 com App Router
+- **Linguagem**: TypeScript 5.4 (strict mode)
 - **Estilização**: Tailwind CSS 3.4
 - **Fonte**: Inter (via next/font/google)
-- **Linting**: ESLint (eslint-config-next)
-- **Validação de formulários**: Zod
-- **Testes**: Vitest + Testing Library + fast-check (property-based testing)
-- **Test Environment**: jsdom
+- **Linting**: ESLint 8 (eslint-config-next)
+- **Validação de formulários**: Zod 3.23
+- **Testes**: Vitest 4.1 + Testing Library 16.3 + fast-check 4.9 (property-based testing)
+- **Test Environment**: jsdom (via vitest config)
+- **Path Alias**: `@/*` → `./*` (configurado em tsconfig.json e vitest.config.ts)
 
 ## Scripts Disponíveis
 
 ```bash
-npm run dev       # Servidor de desenvolvimento
-npm run build     # Build de produção
-npm run start     # Iniciar build de produção
-npm run lint      # Executar ESLint
-npm run test      # Executar testes (single run)
-npm run test:watch # Executar testes em watch mode
+npm run dev        # Servidor de desenvolvimento
+npm run build      # Build de produção
+npm run start      # Iniciar build de produção
+npm run lint       # Executar ESLint
+npm run test       # Executar testes (single run, vitest --run)
+npm run test:watch # Executar testes em watch mode (vitest)
 ```
 
 ## Estrutura de Pastas
@@ -85,6 +86,7 @@ frontend/
 - Tipos compartilhados ficam em `/types`
 - Interfaces de props são definidas no próprio arquivo do componente
 - Usar `type` para union types e `interface` para objetos
+- Usar o alias `@/` para imports (ex: `import { Pet } from '@/types/pets'`)
 
 ### Componentes
 - Um componente por arquivo
@@ -111,3 +113,5 @@ frontend/
 - Testes gerais na pasta raiz `__tests__/` separados por tipo
 - Convenção de nomenclatura: `{Component}.property.test.ts(x)` para property tests
 - Rodar testes: `npm run test` (single run) ou `npm run test:watch`
+- Vitest configurado com `globals: true` (não precisa importar `describe`, `it`, `expect`)
+- Alias `@/` disponível nos testes via resolve.alias no vitest.config.ts

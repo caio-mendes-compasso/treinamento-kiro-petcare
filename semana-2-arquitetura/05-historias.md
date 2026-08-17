@@ -1,11 +1,23 @@
-# Histórias de Usuário — Semana 2: Arquitetura AWS + Backend Spring Boot 3.5
+# Histórias de Referência — Semana 2: Arquitetura AWS + Backend Spring Boot 3.5
 
-> Cards prontos para criar no Trello. Cada seção = 1 card.
-> Copie título, descrição e checklist diretamente para o Trello.
+> ⚠️ **Este arquivo é um GABARITO de referência.**
 >
-> **Board:** Pet Care Portal
-> **Lista:** Sprint 2 - Arquitetura + Backend
-> **Labels:** 🟠 Arquitetura | 🔴 Backend | 🔵 Setup | 🟣 Infra
+> No treinamento, a IA vai **gerar as histórias automaticamente** a partir do épico + diagrama de arquitetura.
+> Use este documento para:
+> - Validar se a IA gerou todas as histórias necessárias
+> - Comparar os critérios de aceite gerados vs esperados
+> - Adicionar manualmente algo que a IA tenha esquecido
+>
+> **Fluxo real no treinamento:**
+> 1. Gerar diagrama de arquitetura
+> 2. IA lê o épico no Trello + diagrama
+> 3. IA quebra em cards individuais na lista "Refinamento"
+> 4. Facilitador valida contra este gabarito
+> 5. @sprint-executor implementa card por card
+>
+> **Board Trello:** PetCare
+> **Épico:** [ÉPICO] Arquitetura AWS + Backend Spring Boot 3.5
+> **Labels:** 🟠 Arquitetura | 🔴 Backend | 🔵 Setup | 🟣 Infra | 🟡 Teste
 
 ---
 
@@ -346,3 +358,41 @@ Como desenvolvedor, quero abrir uma PR com a arquitetura documentada e backend c
   - Como rodar: docker-compose up + mvn spring-boot:run
   - Swagger URL
   - Decisões técnicas
+
+
+---
+
+## Card 14
+
+**Título:** [INFRA] Provisionar Infraestrutura AWS com Terraform
+
+**Label:** 🟣 Infra
+
+**Descrição:**
+Como time de desenvolvimento, queremos provisionar toda a infraestrutura do Pet Care na AWS via Terraform, para ter um ambiente real e reproduzível, versionado como código.
+
+**Critérios de Aceite:**
+- [ ] Código Terraform em `/infra/terraform/` com módulos para: VPC, RDS, ECS, S3, Cognito, SQS, CloudWatch
+- [ ] Variáveis configuráveis para trocar entre ambientes (dev/prod)
+- [ ] Tags padrão em todos os recursos (Project=petcare, Environment=dev, ManagedBy=terraform)
+- [ ] `terraform init` executa sem erros
+- [ ] `terraform plan` mostra os recursos a serem criados
+- [ ] `terraform apply` provisiona com sucesso na conta AWS
+- [ ] Outputs exportados: RDS endpoint, S3 bucket name, Cognito User Pool ID, ECS cluster ARN
+- [ ] Documento `/docs/architecture/infra-outputs.md` com os valores dos outputs
+- [ ] `terraform destroy` limpa todos os recursos criados
+
+**Serviços provisionados:**
+- VPC (subnets públicas/privadas, NAT Gateway, Security Groups)
+- RDS PostgreSQL (db.t3.micro, 20GB)
+- ECS Fargate (cluster + service + task definition)
+- S3 (bucket fotos + bucket frontend)
+- Cognito (User Pool + App Client)
+- SQS (fila de agendamentos)
+- CloudWatch (log groups + alarmes)
+
+**Considerações:**
+- Region: us-east-1
+- Profile AWS: petcare (SSO)
+- Tamanhos mínimos para dev
+- Destruir ao final do treinamento

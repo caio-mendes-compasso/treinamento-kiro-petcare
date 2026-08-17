@@ -28,7 +28,7 @@
 
 ## Configuração Tailwind
 
-No `tailwind.config.ts`, a cor primária deve ser configurada assim:
+No `tailwind.config.ts`, a cor primária está configurada assim:
 
 ```ts
 theme: {
@@ -50,6 +50,9 @@ theme: {
   },
 }
 ```
+
+Também existem keyframes e animações customizadas:
+- `toast-in`: animação de entrada para componentes Toast (fade-in + slide-up)
 
 ## Regras de Uso
 
