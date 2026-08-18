@@ -1,0 +1,13 @@
+# Ignorar material de outras semanas (não relevante para esta sessão)
+semana-3-migracao/
+semana-1-frontend/
+
+# Dependências e builds (caches, não código)
+frontend/node_modules/
+frontend/.next/
+backend/target/
+
+# Cache do Terraform (providers baixados, NÃO é o código .tf)
+infra/terraform/.terraform/
+*.tfstate
+*.tfstate.backup

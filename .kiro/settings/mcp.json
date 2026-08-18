@@ -9,7 +9,7 @@
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
       },
-      "disabled": false,
+      "disabled": true,
       "autoApprove": [
         "search_repositories",
         "create_pull_request"

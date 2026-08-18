@@ -74,11 +74,14 @@
 - [ ] Error handling padronizado
 - [ ] Swagger documenta todos endpoints
 
-## Git & PR
+## Git & PRs
 
-- [ ] Branch `feat/backend-spring35` criada
-- [ ] Commit seguindo conventional commits
-- [ ] PR aberto com diagrama, custos e endpoints na descrição
+- [ ] Uma branch por card (feat/{nome-curto})
+- [ ] Commits seguindo conventional commits
+- [ ] Uma PR por card no GitHub
+- [ ] PRs usam o template `.github/pull_request_template.md`
+- [ ] Cards movidos para "Concluído" no Trello
+- [ ] Épico fechado após todas as PRs abertas
 
 ---
 

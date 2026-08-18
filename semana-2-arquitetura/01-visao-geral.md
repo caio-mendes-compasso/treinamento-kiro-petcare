@@ -1,123 +1,134 @@
-# Semana 2 — Arquitetura AWS + Backend Spring Boot 3.5
+# 🏗️ Semana 2 — Arquitetura AWS + Backend com IA
 
-## Objetivo
+## O que vamos fazer hoje?
 
-Desenhar a arquitetura cloud do Portal Pet Care, estimar custos, provisionar a infra na AWS com Terraform e criar o backend completo com Spring Boot 3.5 — tudo guiado pelo Kiro em ~1h15.
+Criar **toda a arquitetura cloud e o backend** do Portal Pet Care usando **apenas IA** — sem escrever código manualmente, sem abrir o console AWS na mão.
 
----
-
-## O que será feito
-
-| Etapa | Entrega | Tempo |
-|---|---|---|
-| Diagrama de Arquitetura | Desenho completo da infra AWS | 5 min |
-| Precificação | Estimativa mensal de custos | 5 min |
-| Terraform | Infra provisionada na AWS (IaC) | 10 min |
-| Quebrar Épico em Histórias | Cards no Trello gerados pela IA | 5 min |
-| Backend Spring Boot 3.5 | API REST completa (via @sprint-executor) | 40 min |
-| Testes + PR | Testes, commit e PRs por card | 10 min |
-| Encerramento | terraform destroy + recap | 5 min |
+> Ferramentas: Kiro IDE + MCPs (Trello, GitHub, AWS Pricing, draw.io) + Terraform
 
 ---
 
-## Arquitetura AWS (base para discussão)
+## 🎯 Entregas desta sessão
 
-| Necessidade | Possível serviço AWS |
-|---|---|
-| Hospedar frontend (Next.js) | Amplify / S3 + CloudFront |
-| API Backend (Java) | ECS Fargate / Lambda / Elastic Beanstalk |
-| Banco de dados | RDS (PostgreSQL) / DynamoDB |
-| Autenticação | Cognito |
-| Armazenamento de fotos | S3 |
-| Fila/Eventos (agendamentos) | SQS / EventBridge |
-| Monitoramento | CloudWatch |
-| DNS | Route 53 |
-| CDN | CloudFront |
+| # | Entrega | Como | Tempo |
+|---|---------|------|-------|
+| 1 | Diagrama de Arquitetura AWS | draw.io (gerado pela IA) | ~5 min |
+| 2 | Estimativa de Custos | MCP AWS Pricing (preços reais) | ~5 min |
+| 3 | Infraestrutura real na AWS | Terraform (gerado + apply) | ~10 min |
+| 4 | Histórias no Trello | IA quebra o Épico em cards | ~5 min |
+| 5 | Backend Spring Boot 3.5 completo | IA implementa card por card | ~40 min |
+| 6 | Testes + PRs | Uma PR por história | ~10 min |
 
-> **Importante:** A arquitetura final será definida ao vivo no treinamento.
-> Os participantes vão propor e decidir juntos.
+**Tempo total: ~1h15**
 
 ---
 
-## Backend — Endpoints
+## 🏛️ Arquitetura Alvo
 
-| Recurso | Endpoints | Complexidade |
-|---|---|---|
-| Auth (Cognito) | POST /auth/login, POST /auth/register, POST /auth/refresh | Média |
-| Usuários | GET /users/me, PUT /users/me | Baixa |
-| Pets | CRUD /pets | Média |
-| Planos | GET /plans, POST /subscriptions | Média |
-| Agenda | CRUD /appointments, GET /slots | Alta |
-| Financeiro | GET /invoices, POST /invoices/:id/pay | Média |
-| Upload | POST /uploads/photo | Média |
+```
+Browser → Route 53 → CloudFront → ALB → ECS Fargate (Spring Boot) → RDS PostgreSQL
+                                                                    → S3 (fotos)
+                                                                    → Cognito (auth)
+                                                                    → SQS (agendamentos)
+```
+
+| Serviço AWS | Função |
+|-------------|--------|
+| ECS Fargate | Backend Java (Spring Boot 3.5) |
+| RDS PostgreSQL | Banco de dados relacional |
+| S3 | Fotos de pets + frontend estático |
+| Cognito | Autenticação JWT |
+| CloudFront | CDN |
+| SQS | Fila de agendamentos |
+| CloudWatch | Logs e alarmes |
+| Route 53 | DNS |
 
 ---
 
-## Stack do Backend
+## 🔌 API REST — Endpoints
 
-| Componente | Tecnologia |
-|---|---|
+| Recurso | Método | Path | Auth |
+|---------|--------|------|------|
+| Auth | POST | /api/auth/login, /register, /refresh | Público |
+| Usuários | GET, PUT | /api/users/me | Protegido |
+| Pets | CRUD | /api/pets, /api/pets/{id}/photo | Protegido |
+| Planos | GET | /api/plans | Público |
+| Assinaturas | POST | /api/subscriptions | Protegido |
+| Agenda | CRUD | /api/appointments, /slots | Protegido |
+| Financeiro | GET, POST | /api/invoices, /invoices/{id}/pay | Protegido |
+
+---
+
+## ⚙️ Stack
+
+| Camada | Tecnologia |
+|--------|-----------|
 | Framework | Spring Boot 3.5 |
-| Linguagem | Java 17+ |
+| Linguagem | Java 17 |
 | Build | Maven |
-| Banco | PostgreSQL (RDS) |
-| ORM | Spring Data JPA / Hibernate |
-| Auth | Spring Security + AWS Cognito |
+| Banco | PostgreSQL 15 |
+| ORM | Spring Data JPA |
+| Auth | Spring Security + JWT |
 | Storage | AWS S3 SDK v2 |
-| Docs | SpringDoc OpenAPI (Swagger) |
+| Docs | Swagger (SpringDoc OpenAPI) |
 | Testes | JUnit 5 + Mockito |
+| IaC | Terraform |
 | Container | Docker + docker-compose |
 
 ---
 
-## Momentos Complexos
+## 🤖 Ferramentas de IA usadas
 
-1. **Trade-offs de custo vs complexidade** — Fargate vs Lambda para o backend
-2. **Decisão de banco** — SQL vs NoSQL para os dados do Pet Care
-3. **Integração com Cognito** — validação de JWT, extração de claims
-4. **Upload para S3** — presigned URLs, validação de tipo/tamanho
-5. **Lógica de Agenda** — conflitos de horário, slots disponíveis
-6. **Relacionamentos JPA** — User → Pets (1:N), Pet → Appointments (1:N)
-
----
-
-## Divisão do Tempo (~1h15)
-
-| Tempo | Atividade |
-|---|---|
-| 0-5min | Recap semana 1 + contexto |
-| 5-10min | Diagrama de arquitetura (draw.io) |
-| 10-15min | Precificação AWS (MCP pricing) |
-| 15-25min | Terraform: gerar código + apply na AWS |
-| 25-30min | Quebrar épico em histórias (IA + Trello) |
-| 30-65min | @sprint-executor implementa card por card (spec → código → testes → PR) |
-| 65-70min | Validação final (Swagger, curl, testes) |
-| 70-75min | terraform destroy + recap + gancho semana 3 |
+| Tipo | Nome | O que faz |
+|------|------|-----------|
+| **Power** | aws-cost-optimization | Consulta preços reais AWS |
+| **Power** | trello-to-pr | Cria cards e PRs automaticamente |
+| **Skill** | java-spring-boot | Gera código Spring Boot correto |
+| **Skill** | terraform-skill | Boas práticas de IaC |
+| **Agent** | @sprint-executor | Implementa card por card (spec → código → PR) |
+| **Agent** | @card-refiner | Refina histórias de usuário |
+| **MCP** | draw.io | Gera diagramas de arquitetura |
 
 ---
 
-## Ferramentas Kiro utilizadas
+## 📐 Fluxo da Apresentação
 
-| Tipo | Nome | Uso |
-|------|------|-----|
-| Power | `aws-cost-optimization` | Precificação real dos serviços AWS |
-| Power | `trello-to-pr` | Gestão de cards e PRs |
-| Skill | `java-spring-boot` | Padrões Spring Boot |
-| Skill | `terraform-skill` | Boas práticas Terraform |
-| Agent | `@sprint-executor` | Implementação automática card por card |
-| Agent | `@card-refiner` | Refinamento de histórias |
-| MCP | draw.io | Diagramas de arquitetura |
-| MCP | GitHub | Commits e PRs |
+```
+┌─────────────────────────────────────────────────────────────┐
+│  1. DIAGRAMA       → IA gera arquitetura em draw.io         │
+│  2. CUSTOS         → IA consulta pricing real da AWS        │
+│  3. TERRAFORM      → IA gera IaC + aplica na AWS           │
+│  4. MOSTRAR AWS    → Ver recursos criados no console        │
+│  5. ÉPICO → CARDS  → IA quebra épico em histórias          │
+│  6. IMPLEMENTAÇÃO  → @sprint-executor executa tudo          │
+│  7. BACKEND RODANDO→ Swagger + curl ao vivo                 │
+│  8. PRs NO GITHUB  → Uma PR por história                   │
+│  9. DESTROY        → terraform destroy (zero custo)         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## Pré-requisitos
+## ⚡ Momentos de impacto (pra audiência)
 
-- Java 17+ instalado
-- Maven instalado
-- Terraform instalado
-- Docker + docker-compose
-- Conta AWS com acesso (SSO configurado, profile "petcare")
-- AWS CLI configurada
-- Kiro IDE pronto com powers e skills instalados
-- Repo com frontend da Semana 1
+1. **Diagrama gerado em segundos** — draw.io abre com arquitetura completa
+2. **Preços reais** — MCP retorna valores atualizados da AWS
+3. **Infra criada na AWS** — `terraform apply` provisiona tudo, mostrar no console
+4. **Épico vira 10+ histórias** — IA lê o épico e cria cards no Trello
+5. **Backend completo sem digitar** — @sprint-executor implementa tudo
+6. **Swagger funcionando** — endpoints testáveis ao vivo
+7. **PRs abertas** — cada card com sua PR no GitHub
+8. **Destruição em 1 comando** — `terraform destroy` limpa tudo
+
+---
+
+## 📋 Pré-requisitos (já validados ✅)
+
+- [x] Java 17+ (`java -version`)
+- [x] Maven 3.9+ (`mvn -version`)
+- [x] Terraform 1.9+ (`terraform -version`)
+- [x] Docker rodando (`docker ps`)
+- [x] AWS SSO autenticado (`aws sts get-caller-identity --profile petcare`)
+- [x] Kiro com powers/skills/agents instalados
+- [x] Board "PetCare" no Trello com Épico criado
+- [x] Repo no GitHub pronto
