@@ -1,0 +1,36 @@
+# === Pet Care - Terraform Variables (Dev) ===
+# Copie este arquivo para terraform.tfvars e preencha os valores sensíveis.
+
+# General
+project_name = "petcare"
+environment  = "dev"
+aws_region   = "us-east-1"
+aws_profile  = "petcare"
+
+# VPC
+vpc_cidr           = "10.0.0.0/16"
+public_subnets     = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnets    = ["10.0.3.0/24", "10.0.4.0/24"]
+availability_zones = ["us-east-1a", "us-east-1b"]
+
+# RDS
+db_instance_class    = "db.t3.micro"
+db_allocated_storage = 20
+db_name              = "petcare"
+db_username          = "petcare_admin"
+db_password          = "CHANGE_ME_USE_SECRETS_MANAGER"
+db_multi_az          = false
+
+# ECS / Fargate
+container_image       = "petcare/backend:latest"
+container_port        = 8080
+fargate_cpu           = 512   # 0.5 vCPU
+fargate_memory        = 1024  # 1 GB
+fargate_desired_count = 1
+
+# Cognito
+cognito_callback_urls = ["http://localhost:3000/api/auth/callback"]
+cognito_logout_urls   = ["http://localhost:3000"]
+
+# CloudWatch
+alarm_email = "devops@petcare.com.br"
