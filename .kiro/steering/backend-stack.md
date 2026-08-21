@@ -1,8 +1,3 @@
----
-inclusion: fileMatch
-fileMatchPattern: "backend/**"
----
-
 # Stack e Estrutura do Backend - Pet Care
 
 ## Stack Principal
