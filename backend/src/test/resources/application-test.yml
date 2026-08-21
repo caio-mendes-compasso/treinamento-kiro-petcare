@@ -8,6 +8,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      mode: never
   security:
     user:
       name: test
