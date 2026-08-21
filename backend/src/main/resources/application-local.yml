@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/petcare_db
+    username: ${POSTGRES_USER:petcare}
+    password: ${POSTGRES_PASSWORD:petcare123}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
+aws:
+  endpoint: http://localhost:4566
+  s3:
+    bucket: petcare-photos
+
+jwt:
+  secret: petcare-local-secret-key-for-development-only-min-256-bits!!
+  expiration: 86400000
+
+logging:
+  level:
+    com.petcare.api: DEBUG
+    org.springframework.security: DEBUG

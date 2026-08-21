@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: petcare-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-petcare}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-petcare123}
+      POSTGRES_DB: ${POSTGRES_DB:-petcare_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-petcare}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  localstack:
+    image: localstack/localstack:latest
+    container_name: petcare-localstack
+    environment:
+      - SERVICES=s3,sqs
+      - DEFAULT_REGION=${AWS_REGION:-us-east-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-test}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-test}
+    ports:
+      - "4566:4566"
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - ./scripts/init-localstack.sh:/etc/localstack/init/ready.d/init-localstack.sh
+
+volumes:
+  postgres_data:
+  localstack_data:
