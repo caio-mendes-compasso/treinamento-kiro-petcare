@@ -79,12 +79,16 @@ set MAVEN_PROJECTBASEDIR=%~dp0
 set MAVEN_HOME=%MAVEN_PROJECTBASEDIR%\.mvn\wrapper\maven
 
 if exist "%MAVEN_HOME%\bin\mvn.cmd" (
-    "%MAVEN_HOME%\bin\mvn.cmd" %MAVEN_CMD_LINE_ARGS%
-    goto end
+    set MAVEN_EXEC="%MAVEN_HOME%\bin\mvn.cmd"
+    goto execute
 )
 
 @REM If maven home doesn't exist, use the wrapper jar
-"%JAVA_EXE%" %JVM_CONFIG_MAVEN_PROPS% %MAVEN_OPTS% "-Dmaven.multiModuleProjectDirectory=%MAVEN_PROJECTBASEDIR%" -classpath %WRAPPER_JAR% org.apache.maven.wrapper.MavenWrapperMain %MAVEN_CMD_LINE_ARGS%
+set MAVEN_EXEC="%JAVA_EXE%" %JVM_CONFIG_MAVEN_PROPS% %MAVEN_OPTS% "-Dmaven.multiModuleProjectDirectory=%MAVEN_PROJECTBASEDIR%" -classpath %WRAPPER_JAR% org.apache.maven.wrapper.MavenWrapperMain %MAVEN_CMD_LINE_ARGS%
+goto execute
+
+:execute
+%MAVEN_EXEC% %MAVEN_CMD_LINE_ARGS%
 if ERRORLEVEL 1 goto error
 goto end
 

@@ -1,10 +1,38 @@
 # Live Code Training: Atualização do Spring Boot
 
+
+---
+
+O projeto **Pet Care** é um bom projeto mas não apresenta desafios na atualização do Spring (nesse momento).
+
+Por esse motivo, para aumentar a complexidade de um caso real, o projeto usado no workshop é o [kiro-flashcards-2-be](https://github.com/air-rsilveira/kiro-flashcards-2-be).
+
+Ele está mais desatualizado e apresenta problemas mais relacionados com a vida real.
+
+---
+
+
 ## Contexto
 
 O projeto **kiro-flashcards-2-be** utiliza Spring Boot **3.3.5** com Java 21.
 A versão mais recente estável é Spring Boot **4.1.x** (baseada em Spring Framework 7).
 O treinamento simula a jornada real de um desenvolvedor planejando e executando essa migração com auxílio de IA.
+
+---
+## Pré requisito
+Iniciar uma branch nova
+chore/upgrade-spring
+
+---
+
+## Rota da migração (Passo a passo agnóstico a tecologia)
+
+1. origem -> destino
+2. identificar breaking changes documentados
+3. identificar alteração em testes (importantíssimo)
+3. identificar se as breaking changes tem impacto no projeto
+    atenção a infra
+4. criar um plano de migração
 
 ---
 
@@ -13,6 +41,8 @@ O treinamento simula a jornada real de um desenvolvedor planejando e executando 
 ### Prompt 1: Descobrir a versão alvo
 
 ```
+Quero explorar opções de atualização do spring boot do projeto.
+
 Qual é a versão mais recente estável do Spring Boot disponível hoje?
 Qual a versão do Spring Framework que ela utiliza?
 E qual o baseline mínimo de Java?
@@ -27,7 +57,7 @@ E qual o baseline mínimo de Java?
 ### Prompt 2: Entender o caminho de atualização recomendado
 
 ```
-Estou no Spring Boot 3.3.5. Qual é o caminho recomendado de migração até a versão mais recente?
+Estou no Spring Boot 3.3.5. Qual é o caminho recomendado de migração até a versão mais recente 4.1.1?
 Devo fazer saltos intermediários (ex: 3.3 → 3.5 → 4.0 → 4.1) ou posso ir direto?
 ```
 
@@ -60,8 +90,10 @@ Considerando que meu projeto usa: Spring Web, Spring Data JPA, Jakarta Validatio
 
 ```
 Analise o build.gradle.kts e a estrutura do meu projeto. 
-Quais arquivos e dependências serão impactados pela migração para Spring Boot 4.x?
+Quais arquivos e dependências serão impactados pela migração para Spring Boot 4.1.1?
 Existe alguma dependência que pode não ter suporte à nova versão?
+
+Analise o build.gradle.kts, os arquivos de configuração, os testes e o código-fonte do projeto para dar respostas concretas e específicas (não genéricas).
 ```
 
 **Motivo**: Trazer a análise de breaking changes para o contexto concreto do projeto. Aqui o Kiro lê o código e dá respostas específicas.
@@ -72,6 +104,43 @@ Existe alguma dependência que pode não ter suporte à nova versão?
 - O plugin `io.spring.dependency-management` pode ter nova versão requerida
 - Mudanças no Jackson afetam serialização/deserialização dos DTOs
 - Configurações em `application.properties`/`application.yml` podem ter properties renomeadas
+
+### Prompt 4b: Análise de Impacto Consolidada
+
+```
+Faça uma análise de impacto completa da migração deste projeto para Spring Boot 4.1.x. 
+Estruture a resposta nas seguintes seções:
+
+1. **Dependências no build.gradle.kts** — Tabela com cada dependência atual, seu status no Boot 4.1 (✅ mantido, ⚠️ risco, 🔄 renomeado, ❌ incompatível), e a ação necessária.
+
+2. **Arquivos Impactados** — Agrupe em:
+   - Impacto ALTO (quebra certa): arquivos que vão parar de compilar ou funcionar
+   - Impacto MÉDIO (pode precisar ajuste): arquivos que podem funcionar mas têm risco
+   - Impacto BAIXO (sem mudança necessária): camadas que migram limpas
+
+   Para cada arquivo, explique o motivo do impacto.
+
+3. **Dependências com Risco de Incompatibilidade** — Para cada lib de risco:
+   - Qual a última versão testada e com quais versões do Spring
+   - O que pode quebrar concretamente
+   - Mitigação sugerida
+
+4. **Resumo Visual** — Diagrama ASCII mostrando o impacto relativo por camada do projeto (de ALTO a NULO).
+
+5. **Ponto de atenção principal** — Resumo executivo dos 3-5 maiores riscos, priorizados por probabilidade de quebra.
+
+Analise o build.gradle.kts, os arquivos de configuração, os testes e o código-fonte do projeto para dar respostas concretas e específicas (não genéricas).
+```
+
+**Motivo**: Gera um documento de análise de impacto completo e acionável que pode ser usado como referência durante toda a execução da migração. Formato tabular e visual facilita revisão rápida e tomada de decisão.
+
+**Resultado esperado**: A IA produz um documento estruturado com:
+- Tabela de dependências com status e ações claras
+- Lista priorizada de arquivos que precisam de atenção
+- Análise profunda de libs com risco (jqwik-spring, springdoc, Jackson 3)
+- Diagrama visual de impacto por camada
+- Resumo executivo dos principais riscos para comunicação com o time
+
 
 ---
 
@@ -125,42 +194,18 @@ Existe algum ponto de "no return" que eu deva ter cuidado?
 - Não há "no return" real se estiver em branch isolada com boa cobertura de testes
 
 ---
-
-### Prompt 4b: Análise de Impacto Consolidada
-
 ```
-Faça uma análise de impacto completa da migração deste projeto para Spring Boot 4.1.x. 
-Estruture a resposta nas seguintes seções:
+Crie um card para cada task no trello para que eu possa acompanhar o andamento.
 
-1. **Dependências no build.gradle.kts** — Tabela com cada dependência atual, seu status no Boot 4.1 (✅ mantido, ⚠️ risco, 🔄 renomeado, ❌ incompatível), e a ação necessária.
-
-2. **Arquivos Impactados** — Agrupe em:
-   - Impacto ALTO (quebra certa): arquivos que vão parar de compilar ou funcionar
-   - Impacto MÉDIO (pode precisar ajuste): arquivos que podem funcionar mas têm risco
-   - Impacto BAIXO (sem mudança necessária): camadas que migram limpas
-
-   Para cada arquivo, explique o motivo do impacto.
-
-3. **Dependências com Risco de Incompatibilidade** — Para cada lib de risco:
-   - Qual a última versão testada e com quais versões do Spring
-   - O que pode quebrar concretamente
-   - Mitigação sugerida
-
-4. **Resumo Visual** — Diagrama ASCII mostrando o impacto relativo por camada do projeto (de ALTO a NULO).
-
-5. **Ponto de atenção principal** — Resumo executivo dos 3-5 maiores riscos, priorizados por probabilidade de quebra.
-
-Analise o build.gradle.kts, os arquivos de configuração, os testes e o código-fonte do projeto para dar respostas concretas e específicas (não genéricas).
+- Crie o card na coluna TODO
+- Antes de iniciar uma task mova o card para Doing
+- Quando terminar a task mova ela para Done
 ```
 
-**Motivo**: Gera um documento de análise de impacto completo e acionável que pode ser usado como referência durante toda a execução da migração. Formato tabular e visual facilita revisão rápida e tomada de decisão.
-
-**Resultado esperado**: A IA produz um documento estruturado com:
-- Tabela de dependências com status e ações claras
-- Lista priorizada de arquivos que precisam de atenção
-- Análise profunda de libs com risco (jqwik-spring, springdoc, Jackson 3)
-- Diagrama visual de impacto por camada
-- Resumo executivo dos principais riscos para comunicação com o time
+---
+```
+/git-commit-enforcer commite os arquivos em stage
+```
 
 ---
 
@@ -213,8 +258,55 @@ Crie a spec com requirements, design e tasks.
 
 
 --- 
-## Command to run on windows
-java "-Dmaven.multiModuleProjectDirectory=." -classpath ".\.mvn\wrapper\maven-wrapper.jar" org.apache.maven.wrapper.MavenWrapperMain spring-boot:run "-Dspring-boot.run.profiles=local"
+## Show Pet care backend
+Subir a infra com o docker no wsl
+```
+cd winhome/projects/trn-tst/w2/treinamento-kiro-petcare/
+docker compose up -d
+```
 
-## Swagger
-http://localhost:8080/swagger-ui/index.html
+Acessar a pasta do backend do projeto
+```
+cd .\projects\trn-tst\w2\treinamento-kiro-petcare\backend\
+```
+
+Command to run on windows
+```
+java "-Dmaven.multiModuleProjectDirectory=." -classpath ".\.mvn\wrapper\maven-wrapper.jar" org.apache.maven.wrapper.MavenWrapperMain spring-boot:run "-Dspring-boot.run.profiles=local"
+```
+
+Acessar o Swagger
+> http://localhost:8080/swagger-ui/index.html
+> http://localhost:8080/swagger-ui/swagger-ui/index.html
+
+Endpoint sem autenticação
+> /api/health
+
+---
+## Show flashcards
+Subir a aplicação
+```
+cd .\projects\trn-tst\b3\kiro-flashcards-2-be\
+.\gradlew.bat bootRun
+```
+
+Acessar o swagger
+> http://localhost:8080/swagger-ui/index.html
+
+---
+### Troubleshoot on windows
+
+Identify process on port
+```
+netstat -ano | findstr :8080
+```
+
+Kill a specific process (Admin could be required)
+```
+Stop-Process -Id <PID> -Force
+```
+
+Kill all processes on a specific port
+````
+Get-NetTCPConnection -LocalPort 8080 | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }
+```

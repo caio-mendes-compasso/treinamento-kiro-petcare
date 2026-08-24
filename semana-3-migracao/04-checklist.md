@@ -41,26 +41,6 @@
 - [ ] Aplicação sobe sem erros
 - [ ] Sem problemas de pinning nos logs
 
-## Integração Frontend ↔ Backend
-
-- [ ] Frontend chama API real (não mais mocks)
-- [ ] Token JWT enviado nos requests autenticados
-- [ ] Erros da API tratados no frontend (401, 422, 500)
-- [ ] Loading states funcionando
-- [ ] Login funciona end-to-end
-- [ ] CRUD de pets funciona end-to-end
-- [ ] Agendamento funciona end-to-end
-- [ ] Faturas listam e pagamento simula
-- [ ] Carteirinha mostra dados reais
-
-## Demo End-to-End
-
-- [ ] docker-compose sobe sem erros
-- [ ] Backend roda em localhost:8080
-- [ ] Frontend roda em localhost:3000
-- [ ] Swagger acessível
-- [ ] Fluxo completo funciona: Home → Login → Pets → Agenda → Financeiro → Carteirinha
-
 ## Git & PR
 
 - [ ] Branch `feat/spring-boot-4-migration` criada

@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Migrar o backend de Spring Boot 3.5 para 4.0, lidar com breaking changes reais, integrar frontend ↔ backend e demonstrar o projeto Pet Care funcionando end-to-end.
+Migrar o backend de Spring Boot 3.5 para 4.0, lidar com breaking changes reais.
 
 ---
 
@@ -12,8 +12,6 @@ Migrar o backend de Spring Boot 3.5 para 4.0, lidar com breaking changes reais, 
 |---|---|---|
 | Migração Spring Boot 4.0 | Backend atualizado e compilando | 25 min |
 | Ajustes de breaking changes | Tudo funcionando na nova versão | 10 min |
-| Integração frontend ↔ backend | App comunicando end-to-end | 15 min |
-| Demo + PR final | Projeto rodando, PR aberto | 10 min |
 
 ---
 
@@ -37,21 +35,7 @@ Migrar o backend de Spring Boot 3.5 para 4.0, lidar com breaking changes reais, 
 
 1. **Jackson 3 migration** — pacotes mudam de `com.fasterxml.jackson` para `tools.jackson`, annotations renomeadas, serialização com comportamento diferente
 2. **Spring Security 7** — method chaining removido, só lambda DSL, defaults de CSRF e session mudam
-3. **Testes quebram silenciosamente** — @MockBean vira @MockitoBean, @SpringBootTest não traz MockMvc, assertions podem falhar por Jackson 3
-4. **Starters renomeados** — módulos separados, dependências que antes eram transitivas agora precisam ser explícitas
-5. **Integração end-to-end** — conectar frontend real com backend real, resolver CORS, auth, URLs
-
----
-
-## Divisão do Tempo (1h)
-
-| Tempo | Atividade |
-|---|---|
-| 0-5min | Recap + explicar mudanças Spring Boot 4.0 |
-| 5-30min | Migração: pom.xml, Jackson 3, Security 7, módulos |
-| 30-40min | Corrigir testes quebrados |
-| 40-55min | Integração frontend ↔ backend + demo |
-| 55-60min | Commit + PR final |
+3. **Starters renomeados** — módulos separados, dependências que antes eram transitivas agora precisam ser explícitas
 
 ---
 
